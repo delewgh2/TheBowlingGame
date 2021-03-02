@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "4VCywTxzcBGGwH9x3JtqH2QPfEpYPlJFubqDCiJhe2Xu7GOa4S3Lvrv4r6ksBiohAToohNkiw8Zgi9ZxAXmKng==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\DELEW\\Source\\Repos\\.NetCore\\CardFlight\\TheBowlingGame\\Cashing\\Cashing.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\DELEW\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\5.0.0\\microsoft.extensions.caching.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\DELEW\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

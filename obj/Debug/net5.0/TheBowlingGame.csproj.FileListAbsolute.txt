@@ -1,0 +1,5 @@
+C:\Users\DELEW\Source\Repos\.NetCore\CardFlight\TheBowlingGame\obj\Debug\net5.0\TheBowlingGame.csprojAssemblyReference.cache
+C:\Users\DELEW\Source\Repos\.NetCore\CardFlight\TheBowlingGame\obj\Debug\net5.0\TheBowlingGame.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\DELEW\Source\Repos\.NetCore\CardFlight\TheBowlingGame\obj\Debug\net5.0\TheBowlingGame.AssemblyInfoInputs.cache
+C:\Users\DELEW\Source\Repos\.NetCore\CardFlight\TheBowlingGame\obj\Debug\net5.0\TheBowlingGame.AssemblyInfo.cs
+C:\Users\DELEW\Source\Repos\.NetCore\CardFlight\TheBowlingGame\obj\Debug\net5.0\TheBowlingGame.csproj.CoreCompileInputs.cache
