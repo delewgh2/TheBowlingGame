@@ -27,8 +27,6 @@ namespace TheBowlingGame.Logic.Data
         /// <summary>
         /// Register the result of a roll
         /// </summary>
-        /// <param name="Frames">List of Frames</param>
-        /// <param name="Pins">How many pins have been knocked down</param>
         public List<Frame> AddRoll()
         {
             if (frames.Count == 0)
@@ -53,7 +51,7 @@ namespace TheBowlingGame.Logic.Data
                             frames[frameCount].IsClosed = true;
                         }
                         else
-                            throw new InvalidOperationException("You've played enough for today! Consider calling Score()");
+                            return frames;                        
                     }
 
                     frames[frameCount].RollCount++;
@@ -73,14 +71,12 @@ namespace TheBowlingGame.Logic.Data
         /// <summary>
         /// Determine Last Frames has been reached
         /// </summary>
-        /// <param name="Frames">List of Frames</param>
         private bool IsLastFrame() =>
             frames.Count == 10;
 
         /// <summary>
         /// Calculate the Frame Type for each Frame [Strike, Spare, Miss]
         /// </summary>
-        /// <param name="Frames">List of Frames</param>
         private void FrameType()
         {
             if (frames[frameCount].IsClosed)
@@ -106,29 +102,16 @@ namespace TheBowlingGame.Logic.Data
         /// <summary>
         /// Calculate the Score for each Frame
         /// </summary>
-        /// <param name="Frames">List of Frames</param>
         private void Scores()
         {
             if (!frames[frameCount].IsClosed)
             {
-                frames[frameCount].Score =
-                        frames[frameCount].Rolls.FirstRoll +
-                        frames[frameCount].Rolls.SecondRoll;
+                ScoresBasic();
                 return;
             }
 
             if (frames[frameCount].Rolls.FirstRoll + frames[frameCount].Rolls.SecondRoll < 10)
-            {
-                if (frameCount >= 1)
-                    frames[frameCount].Score =
-                        frames[frameCount - 1].Score +
-                        frames[frameCount].Rolls.FirstRoll +
-                        frames[frameCount].Rolls.SecondRoll;
-                else
-                    frames[frameCount].Score =
-                        frames[frameCount].Rolls.FirstRoll +
-                        frames[frameCount].Rolls.SecondRoll;
-            }
+                ScoresBasic();
 
             if (frameCount >= 1)
             {
@@ -152,15 +135,36 @@ namespace TheBowlingGame.Logic.Data
                 }
             }
             else
-                frames[frameCount].Score =
-                    frames[frameCount].Rolls.FirstRoll +
-                    frames[frameCount].Rolls.SecondRoll;
+                ScoresTwo();
         }
 
         /// <summary>
         /// Helper method to calculate the Score for each Frame
         /// </summary>
-        /// <param name="Frames">List of Frames</param>
+        private void ScoresTwo()
+        {
+            frames[frameCount].Score =
+                frames[frameCount].Rolls.FirstRoll +
+                frames[frameCount].Rolls.SecondRoll;
+        }
+
+        /// <summary>
+        /// Helper method to calculate the Score for each Frame
+        /// </summary>
+        private void ScoresBasic()
+        {
+            if (frameCount >= 1)
+                frames[frameCount].Score =
+                    frames[frameCount - 1].Score +
+                    frames[frameCount].Rolls.FirstRoll +
+                    frames[frameCount].Rolls.SecondRoll;
+            else
+                ScoresTwo();
+        }
+
+        /// <summary>
+        /// Helper method to calculate the Score for each Frame
+        /// </summary>
         private void ScoresPrevious()
         {
             if (frames[frameCount - 1].FrameType == "/")
@@ -178,7 +182,6 @@ namespace TheBowlingGame.Logic.Data
         /// <summary>
         /// Helper method to calculate the Score for each Frame
         /// </summary>
-        /// <param name="Frames">List of Frames</param>
         private void ScoresCurrent()
         {
             frames[frameCount].Score =

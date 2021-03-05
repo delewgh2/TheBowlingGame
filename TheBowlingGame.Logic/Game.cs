@@ -22,7 +22,7 @@ namespace TheBowlingGame.Logic
 
         public IEnumerable<Frame> Roll(int pins)
         {
-            return GetCachedResponse(CacheKeys.Frames, pins);
+            return GetCachedResponse(Keys.Frames, pins);
         }
 
         public Frame Score(int id)
@@ -32,7 +32,7 @@ namespace TheBowlingGame.Logic
 
         public IEnumerable<Frame> Scores()
         {
-            var cashedFrames = _cacheProvider.GetFromCache<IEnumerable<Frame>>(CacheKeys.Frames);
+            var cashedFrames = _cacheProvider.GetFromCache<IEnumerable<Frame>>(Keys.Frames);
 
             if (cashedFrames != null)
                 return (from Frame frame in cashedFrames

@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using TheBowlingGame.Logic;
 using TheBowlingGame.Models;
 using TheBowlingGame.Models.ViewModels;
+using TheBowlingGame.Web.Helper;
 
 namespace TheBowlingGame.Web.Controllers
 {
@@ -20,7 +21,7 @@ namespace TheBowlingGame.Web.Controllers
         private IEnumerable<Frame> frames;
 
         [BindProperty]
-        public ValidateModel ValidateMV { get; set; }
+        public PinViewModel PinVM { get; set; }
         public HomeController(ILogger<HomeController> logger, ICacheProvider cacheProvider, IGame game)
         {
             _logger = logger;
@@ -31,32 +32,34 @@ namespace TheBowlingGame.Web.Controllers
         public IActionResult Index()
         {
             var reset = false;
+            TempData[Keys.IsVisible] = true;
 
-            if (TempData.ContainsKey("Reset"))
-                reset = Convert.ToBoolean(TempData["Reset"]);
+            if (TempData.ContainsKey(Keys.Reset))
+                reset = Convert.ToBoolean(TempData[Keys.Reset]);
 
             if (reset)
-                _cacheProvider.ClearCache(CacheKeys.Frames);
+                _cacheProvider.ClearCache(Keys.Frames);
 
             Game = new Game(_cacheProvider);
             frames = Game.Scores();
-            return View(frames);
+            return View(FrameViewBuilder.FrameView(frames));
         }
 
         [HttpPost, ActionName("Index")]
         [ValidateAntiForgeryToken()]
-        public IActionResult IndexPost(string Roll)
+        public IActionResult IndexPost(string Pin)
         {
-            if (!ModelState.IsValid)
-            {
-                frames = Game.Scores();
-                return View(frames);
-            }
-                
-
-            Game.Roll(Convert.ToInt32(Roll));
+            if (ModelState.IsValid)
+                Game.Roll(Convert.ToInt32(Pin));
+            
             frames = Game.Scores();
-            return View(frames);
+            var framesView = FrameViewBuilder.FrameView(frames);
+            var frame = framesView.Find(f => f.IsReset == true && f.FrameId == 10);
+
+            if (frame != null && frame.IsReset)
+                TempData[Keys.IsVisible] = false;
+
+            return View(framesView);
         }
 
         public IActionResult Privacy()

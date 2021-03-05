@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheBowlingGame.Models", "Th
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cashing", "Cashing\Cashing.csproj", "{1F1F041B-764A-4679-9724-BBA8C0B01F37}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheBowlingGame.LogicTests", "TheBowlingGame.LogicTests\TheBowlingGame.LogicTests.csproj", "{9C3153F1-8F3D-4F4E-864E-F3B2C89DEC99}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{1F1F041B-764A-4679-9724-BBA8C0B01F37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F1F041B-764A-4679-9724-BBA8C0B01F37}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F1F041B-764A-4679-9724-BBA8C0B01F37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C3153F1-8F3D-4F4E-864E-F3B2C89DEC99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C3153F1-8F3D-4F4E-864E-F3B2C89DEC99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C3153F1-8F3D-4F4E-864E-F3B2C89DEC99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C3153F1-8F3D-4F4E-864E-F3B2C89DEC99}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,10 +1,16 @@
-﻿@model IEnumerable<TheBowlingGame.Models.Frame>
+﻿@model IEnumerable<TheBowlingGame.Models.ViewModels.FrameViewModel>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@{  
+    var isVisible = true;
+    if (TempData.ContainsKey("IsVisible"))  
+    {  
+        isVisible = Convert.ToBoolean(TempData["IsVisible"]);
+    }  
+}  
 <br />
 <br />
 <form method="post">
@@ -17,12 +23,17 @@
     <div class="row">
         <div class="form-group row">
             <div class="col-2">
-                <input id="Roll" type="text" name="Roll" placeholder="Enter Pin" runat="server" style="width: 50px;"/>
-                <br />
-                <br />
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-bowling-ball"></i>
-                </button>
+                @{
+                    @if (isVisible)
+                    {
+                        <input id="Pin" type="text" name="Pin" placeholder="Enter Pin" runat="server" style="width: 50px;"/>
+                        <br />
+                        <br />
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-bowling-ball"></i>
+                        </button>
+                    }
+                }
             </div>
         </div>
         <div class="form-group row">
@@ -41,91 +52,30 @@
                     {
                         <tr>
                             <td>@Html.DisplayFor(m => frame.FrameId)</td>
-                            @if (frame.IsClosed)
-                            {
-                                @if (frame.FrameId == 10)
+                            <td>
+                                <b>First Roll: </b>@Html.DisplayFor(m => frame.FirstRoll)<br />
+                                @if (frame.RollCount == 2)
                                 {
-                                    @if (frame.RollCount == 3)
-                                    {
-                                        <td>
-                                            <b>First Roll: </b>@Html.DisplayFor(m => frame.Rolls.FirstRoll)<br />
-                                            <b>Second Roll: </b>@Html.DisplayFor(m => frame.Rolls.SecondRoll)<br />
-                                            <b>Third Roll: </b>@Html.DisplayFor(m => frame.Rolls.ExtraRoll)<br />
-                                        </td>
-                                        <td>0</td>
-                                    }
-                                    else
-                                    {
-                                        <td>
-                                            <b>First Roll: </b>@Html.DisplayFor(m => frame.Rolls.FirstRoll)<br />
-                                            <b>Second Roll: </b>@Html.DisplayFor(m => frame.Rolls.SecondRoll)<br />
-                                        </td>
-                                        <td>0</td>
-                                    }
-                                
+                                    <b>Second Roll: </b>@Html.DisplayFor(m => frame.SecondRoll)<br />
                                 }
-                                else
+                                @if (frame.IsExtraRoll)
                                 {
-                                    <td>
-                                        <b>First Roll: </b>@Html.DisplayFor(m => frame.Rolls.FirstRoll)<br />
-                                        <b>Second Roll: </b>@Html.DisplayFor(m => frame.Rolls.SecondRoll)<br />
-                                    </td>
-                                    <td>0</td>
+                                    <b>Third Roll: </b>@Html.DisplayFor(m => frame.ExtraRoll)<br />
                                 }
-                            }
-                            else
-                            {
-                                @if (frame.FrameId == 10)
-                                {
-                                    @if (frame.RollCount == 2)
-                                    {
-                                        if (frame.Rolls.FirstRoll + frame.Rolls.SecondRoll == 10)
-                                        {
-                                            <td>
-                                                <b>First Roll: </b>@Html.DisplayFor(m => frame.Rolls.FirstRoll)<br />
-                                                <b>Second Roll: </b>@Html.DisplayFor(m => frame.Rolls.SecondRoll)<br />
-                                            </td>
-                                            <td>1</td>
-                                        }
-                                        else
-                                        {
-                                            <td>
-                                                <b>First Roll: </b>@Html.DisplayFor(m => frame.Rolls.FirstRoll)<br />
-                                                <b>Second Roll: </b>@Html.DisplayFor(m => frame.Rolls.SecondRoll)<br />
-                                            </td>
-                                            <td>0</td>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <td><b>First Roll: </b>@Html.DisplayFor(m => frame.Rolls.FirstRoll)</td>
-                                        <td>@Html.DisplayFor(m => frame.RollCount)</td>
-                                    }
-                                
-                                }
-                                else
-                                {
-                                    <td><b>First Roll: </b>@Html.DisplayFor(m => frame.Rolls.FirstRoll)</td>
-                                    <td>@Html.DisplayFor(m => frame.RollCount)</td>
-                                }
-                            }
-                        
-                            <td>@Html.DisplayFor(m => frame.Score)</td>                    
+                            </td>
+                            <td>@Html.DisplayFor(m => frame.RollsRemain)</td>
+                            <td>@Html.DisplayFor(m => frame.Score)</td>
                         </tr>                
-                        @if (frame.FrameId == 10)
+                        @if (frame.IsReset)
                         {
-                            if (frame.IsClosed || frame.RollCount == 2 && frame.Rolls.FirstRoll + frame.Rolls.SecondRoll < 10)
-                            {
-                                TempData["Reset"] = true;
-
-                                <tr>
-                                    <td>
-                                        <a type="submit" class="btn btn-primary rounded-0" href="@Url.Action("Index", new { screenFrames = Model })">
-                                            <i class="far fa-window-close"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
+                            TempData["Reset"] = true;
+                            <tr>
+                                <td>
+                                    <a type="submit" class="btn btn-primary rounded-0" onselect="RollClick" href="@Url.Action("Index", new { screenFrames = Model })">
+                                        <i class="far fa-window-close"></i>
+                                    </a>
+                                </td>
+                            </tr>
                         }
                     }
                 </table>
@@ -135,7 +85,7 @@
     <div class="row">
         <div class="form-group row">
             <span class="alert-danger">
-                @Html.ValidationMessage("Roll")
+                @Html.ValidationMessage("Pin")
             </span>
         </div>
     </div>

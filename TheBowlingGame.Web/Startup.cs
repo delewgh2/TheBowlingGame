@@ -6,10 +6,12 @@ using Cashing.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TheBowlingGame.Logic;
+using TheBowlingGame.Web.Validations;
 
 namespace TheBowlingGame.Web
 {
@@ -42,6 +44,8 @@ namespace TheBowlingGame.Web
 
             services.AddControllersWithViews();//.AddNewtonsoftJson();
             services.AddRazorPages();//.AddRazorRuntimeCompilation();
+
+            services.AddSingleton<IValidationAttributeAdapterProvider, CustomValidationAttributeAdapterProvider>();
 
             services.AddScoped<ICacheProvider, CacheProvider>();
         }
